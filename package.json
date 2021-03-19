@@ -1,0 +1,19 @@
+{
+  "name": "leechbox",
+  "version": "1.0.0",
+  "description": "Leech movies and TV shows.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyperiondroid/leechbox.git"
+  },
+  "author": "hyperiondroid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyperiondroid/leechbox/issues"
+  },
+  "homepage": "https://github.com/hyperiondroid/leechbox#readme"
+}
