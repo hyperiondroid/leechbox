@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
+import GlobalStyles from './fonts/fonts';
 
 import LandingPage from './pages/LandingPage';
 
-render(<LandingPage />, document.getElementById('root'));
+const documentRoot = document.getElementById('root');
+render(<div><GlobalStyles/><LandingPage/></div>, documentRoot);
