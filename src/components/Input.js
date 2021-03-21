@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Button = styled.button`
+const Input = styled.input`
   background: transparent;
   border-radius: 3px;
   border: 2px solid black;
@@ -8,11 +8,7 @@ const Button = styled.button`
   font-family: Roobert;
   font-weight: 600;
   margin: 0 1em;
-  padding: 0.25em 1em;
-  &:hover {
-    background: black;
-    color: white;
-  }
+  padding: 0.25em 0.32em;
 `
 
-export default Button
+export default Input
