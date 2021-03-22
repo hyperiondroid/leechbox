@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from '../components/Button'
+import Button from '../components/Button';
 import Input from '../components/Input';
 import Text from '../components/Text';
 import LibraryPlaceholder from '../components/LibraryPlaceholder';
@@ -16,7 +16,7 @@ const LandingPage = () => {
   return (
     <div>
       <Banner/>
-      <Input type="text" spellCheck="false"/>
+      <Input type="text" spellCheck="false" margin="0.5em 1em"/>
       <Button onClick = {startLeach}>Leech!</Button>
       <Text>{log}</Text>
       <LibraryPlaceholder/>
