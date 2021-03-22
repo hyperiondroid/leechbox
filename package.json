@@ -21,6 +21,7 @@
   "dependencies": {
     "normalize.css": "^8.0.1",
     "react": "^17.0.1",
+    "react-content-loader": "^6.0.2",
     "react-dom": "^17.0.1",
     "styled-components": "^5.2.1"
   },

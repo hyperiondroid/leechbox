@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import RoobertRegularWoff2 from './Roobert-Regular.woff2';
-import RoobertSemiBoldWoff2 from './Roobert-SemiBold.woff2';
+import RoobertRegularWoff2 from '../fonts/Roobert-Regular.woff2';
+import RoobertSemiBoldWoff2 from '../fonts/Roobert-SemiBold.woff2';
 
 // Create Global Style Component to inlcude in index.js
 const GlobalStyles =  createGlobalStyle`
@@ -22,6 +22,9 @@ const GlobalStyles =  createGlobalStyle`
     
     body{
         font-family: 'Roobert';
+        font-weight: 600;
+        background-color: #0e0e10;
+        color: #fafafa;
     }
 `;
 
