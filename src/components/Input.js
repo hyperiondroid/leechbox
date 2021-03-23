@@ -17,7 +17,6 @@ const InputImpl = ({ className, handleChange}) =>{
   <input className= {className} onChange={onChange}/>);
 }
 
-//const Input = styled.input`
 const Input = styled(InputImpl)`
   background: transparent;
   border-radius: 3px;

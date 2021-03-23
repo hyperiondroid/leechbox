@@ -1,0 +1,18 @@
+version: '3.3'
+networks: 
+  web:
+    external: true
+services:
+  leechbox:
+    ports:
+      - '9090:9090'
+    hostname: leechbox.docker
+    build: .
+    image: leechbox
+    container_name: leechbox
+    networks:
+      - web
+    user: 1000:1000
+    volumes:
+      - $PWD/appdata:/config
+      - $HOME/downloads/blackhole:/downloads

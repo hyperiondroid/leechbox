@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --port 9090 --mode=development --open --hot",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "deploy": "node server/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/hyperiondroid/leechbox#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "normalize.css": "^8.0.1",
     "react": "^17.0.1",
     "react-content-loader": "^6.0.2",
