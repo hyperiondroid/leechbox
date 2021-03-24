@@ -12,7 +12,10 @@ services:
     container_name: leechbox
     networks:
       - web
+    environment:
+      - PUID=1000
+      - GUID=1000
     user: 1000:1000
     volumes:
       - $PWD/appdata:/config
-      - $HOME/downloads/blackhole:/downloads
+     # - $HOME/downloads/blackhole:/downloads
