@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components'
 
 // Functional component must take className to apply styled() override 
-const InputImpl = ({ className, handleChange}) =>{
+const InputImpl = ({ className, handleChange = ()=>{} , ...misc}) =>{
 
   const [text,setText] = useState('');
   const onChange = (e) =>{
@@ -14,7 +14,7 @@ const InputImpl = ({ className, handleChange}) =>{
     handleChange(t);
   }
   return (
-  <input className= {className} onChange={onChange}/>);
+  <input className= {className} onChange={onChange} value={text} spellCheck="false" {...misc}/>);
 }
 
 // Moving from defaultProps() for performance

@@ -7,13 +7,30 @@ import Banner from '../components/Banner';
 
 const LandingPage = () => {
   
+  // State: Realtime Logs of leeching 
   const [log, setLog] = useState('Awaiting commands...');
+  
+  // State: Actual query of Movie/TV to search and leech 
   const [query, setQuery] = useState('');
 
-  const startLeach = () => {
-    return setLog('Searching for ' + query);
+  // Callback when leech query is submitted
+  const onSubmit = (event) =>{
+    event.preventDefault();
+    const q = event.target.elements['query'].value;
+    
+    // Update state.query here if onChange callback is not passed to child Input.
+    setQuery(q);
+
+    startLeach(q);
   }
 
+  // Start the leech routine
+  const startLeach = (q) => {
+    return setLog(`Searching for '${q}'...`);
+  }
+
+  // Callback to update state.query from child Input. 
+  // Passed to Input component if onChange callbacks are required.
   const onQueryChange = (q) => {
     setQuery(q);
   }
@@ -21,8 +38,10 @@ const LandingPage = () => {
   return (
     <div>
       <Banner/>
-      <Input type="text" spellCheck="false" margin="0.5em 1em" handleChange={onQueryChange}/>
-      <Button onClick = {startLeach}>Leech!</Button>
+      <form onSubmit={onSubmit}>
+        <Input name="query" type="text" margin="0.5em 1em"/>
+        <Button>Leech</Button>
+      </form>
       <Text>{log}</Text>
       <LibraryPlaceholder/>
     </div>
