@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components'
 
-
+// Functional component must take className to apply styled() override 
 const InputImpl = ({ className, handleChange}) =>{
 
   const [text,setText] = useState('');
@@ -17,6 +17,7 @@ const InputImpl = ({ className, handleChange}) =>{
   <input className= {className} onChange={onChange}/>);
 }
 
+// Moving from defaultProps() for performance
 const Input = styled(InputImpl)`
   background: transparent;
   border-radius: 3px;
@@ -24,13 +25,9 @@ const Input = styled(InputImpl)`
   color: white;
   font-family: Roobert;
   font-weight: 600;
-  margin: ${props => props.margin};
-  padding: ${props => props.padding};
+  margin: ${props => props.margin || '0.5em 0.25em'};
+  padding: ${props => props.padding || '0.25em 0.32em'};
   outline: none;
 `
-Input.defaultProps = {
-  margin: '0.5em 0.25em',
-  padding: '0.25em 0.32em'
-}
 
 export default Input
