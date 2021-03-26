@@ -38,8 +38,8 @@ const LandingPage = () => {
   return (
     <div>
       <Banner/>
-      <form onSubmit={onSubmit}>
-        <Input name="query" type="text" margin="0.5em 1em"/>
+      <form onSubmit={onSubmit} autocomplete="off">
+        <Input name="query" type="text" placeholder="Movie/TV" margin="0.5em 1em"/>
         <Button>Leech</Button>
       </form>
       <Text>{log}</Text>

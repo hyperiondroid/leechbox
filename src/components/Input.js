@@ -28,6 +28,9 @@ const Input = styled(InputImpl)`
   margin: ${props => props.margin || '0.5em 0.25em'};
   padding: ${props => props.padding || '0.25em 0.32em'};
   outline: none;
+  ::placeholder {
+    font-size: 0.8em;
+  }
 `
 
 export default Input
