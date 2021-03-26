@@ -26,6 +26,9 @@ const LandingPage = () => {
 
   // Start the leech routine
   const startLeach = (q) => {
+    fetch('https://xkcd.com/info.0.json')
+    .then(data => data.json())
+    .then(data => setLog(data['title']));
     return setLog(`Searching for '${q}'...`);
   }
 
@@ -38,7 +41,7 @@ const LandingPage = () => {
   return (
     <div>
       <Banner/>
-      <form onSubmit={onSubmit} autocomplete="off">
+      <form onSubmit={onSubmit} autoComplete="off">
         <Input name="query" type="text" placeholder="Movie/TV" margin="0.5em 1em"/>
         <Button>Leech</Button>
       </form>
