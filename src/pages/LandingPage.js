@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import Text from '../components/Text';
-import LibraryPlaceholder from '../components/LibraryPlaceholder';
 import Banner from '../components/Banner';
+import Poster from '../components/Poster';
 
 const LandingPage = () => {
   
@@ -12,6 +12,9 @@ const LandingPage = () => {
   
   // State: Actual query of Movie/TV to search and leech 
   const [query, setQuery] = useState('');
+
+  const [isLeechInProgress, setIsLeechInProgress] = useState(false);
+  const [leechResult, setLeechResult] = useState({});
 
   // Callback when leech query is submitted
   const onSubmit = (event) =>{
@@ -26,10 +29,17 @@ const LandingPage = () => {
 
   // Start the leech routine
   const startLeach = (q) => {
-    fetch('https://xkcd.com/info.0.json')
+    setIsLeechInProgress(true);
+    setLeechResult({});
+    setLog(`Searching for '${q}'...`);
+    fetch(`https://www.omdbapi.com/?apikey=f17fea1c&t=${q}`)
     .then(data => data.json())
-    .then(data => setLog(data['title']));
-    return setLog(`Searching for '${q}'...`);
+    .then(data => {
+      setLog(data['Title']);
+      setIsLeechInProgress(false);
+      setLeechResult(data);
+    });
+    
   }
 
   // Callback to update state.query from child Input. 
@@ -46,7 +56,7 @@ const LandingPage = () => {
         <Button>Leech</Button>
       </form>
       <Text>{log}</Text>
-      <LibraryPlaceholder/>
+      <Poster imgSrc={leechResult['Poster']}></Poster>
     </div>
     
     );

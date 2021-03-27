@@ -1,16 +1,18 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
+import styled from 'styled-components'
 
-const LibraryPlaceholder = props => {
+const LibraryPlaceholderImpl = ({className, width = 214, height = 300, ...props}) => {
 
-    const coverHeight = 300
-    const coverWidth = 200
+    const coverHeight = height
+    const coverWidth = width
     const padding = 20
     const speed = 1
     const borderRadius = 8
 
     return (
       <ContentLoader
+        className =  {className}
         speed={speed}
         backgroundColor='#232323'
         foregroundColor='#303030'
@@ -29,5 +31,9 @@ const LibraryPlaceholder = props => {
       </ContentLoader>
     )
   }
+
+const LibraryPlaceholder = styled(LibraryPlaceholderImpl)`
+  margin: 0.5em 1em;
+`
 
 export default LibraryPlaceholder
