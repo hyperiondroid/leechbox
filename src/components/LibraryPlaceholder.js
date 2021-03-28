@@ -6,7 +6,7 @@ const LibraryPlaceholderImpl = ({className, width = 214, height = 300, ...props}
 
     const coverHeight = height
     const coverWidth = width
-    const padding = 20
+    const padding = 0
     const speed = 1
     const borderRadius = 8
 

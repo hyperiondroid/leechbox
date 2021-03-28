@@ -25,6 +25,7 @@ const Input = styled(InputImpl)`
   color: white;
   font-family: Roobert;
   font-weight: 600;
+  user-select: none;
   width: ${props => props.width || '200px'};
   margin: ${props => props.margin || '0.5em 0.25em'};
   padding: ${props => props.padding || '0.25em 0.32em'};

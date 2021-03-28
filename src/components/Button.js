@@ -7,8 +7,9 @@ const Button = styled.button`
   color: white;
   font-family: Roobert;
   font-weight: 600;
-  margin: 0.5em 0.25em;
+  margin: 0.5em 1em;
   padding: 0.25em 1em;
+  user-select: none;
   &:hover {
     background: #ff3f34;
     color: white;

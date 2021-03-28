@@ -1,66 +1,79 @@
 import React, { useState } from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import Text from '../components/Text';
 import Banner from '../components/Banner';
 import Poster from '../components/Poster';
+import LogScroll from '../components/LogScroll';
 import {searchTitle, searchMagnet, queueTorrent, getArchiveUrl,
    downloadFile, unzipToLibrary, plexScanLibrary } from '../services/Leecher';
 
 const LandingPage = () => {
   
   // State: Realtime Logs of leeching 
-  const [logs, setLogs] = useState(['Awaiting input...']);
-  
-  // State: Actual query of Movie/TV to search and leech 
-  const [query, setQuery] = useState('Okay');
+  const [logs, setLogs] = useState(['']);
 
   const [isSearchInProgress, setIsSearchInProgress] = useState(false);
-  const [leechResult, setLeechResult] = useState({});
+  const [isLeechInProgress, setIsLeechInProgress] = useState(false);
+  const [searchResult, setSearchResult] = useState({});
+
+  let titleInfo;
+  let logScroll = '';
 
   // Callback when leech query is submitted
   const onSubmit = (event) =>{
     event.preventDefault();
     const q = event.target.elements['query'].value;
     
-    // Update state.query here if onChange callback is not passed to child Input.
-    setQuery(q);
-
     startLeach(q);
   }
 
   const addLog = (log) =>{
     console.log(`Adding log: ${log}`);
-    logs.push(log);
-    setLogs(logs);
+    logScroll +='\n'+ log;
+    // TODO: Add list on logs. Debug state update bug
+    setLogs([logScroll]);
+  }
+
+  const setTitleInfo = (data) => {
+    // Update local titleInfo
+    titleInfo = data;
   }
 
   const onSearchComplete = (data)=>{
-    addLog(`Getting magnet for '${data['Title']} (${data['Year']})'...`);
     setIsSearchInProgress(false);
-    setLeechResult(data);
+    setSearchResult(data);
+    setTitleInfo(data);
   }
 
   const onSearchStart = (q) =>{
     setIsSearchInProgress(true);
-    setLeechResult({});
+    setSearchResult({});
+    setTitleInfo({});
     addLog(`Searching for '${q}'...`);
+  }
+
+  const onLeachStart = (q) =>{
+    onSearchStart(q);
+    setIsLeechInProgress(true);
+  }
+  const onLeachComplete = (res)=>{
+    setIsLeechInProgress(false);
   }
 
   // Start the leech routine
   const startLeach = (q) => {
 
-    let titleInfo;
-
-    onSearchStart(q);
+    onLeachStart(q);
     searchTitle(q)
     .then(res =>{
       if(!res['Title']) {
-        onSearchComplete({}); //TODO Update fail scenario
-        return;
+        addLog(`No results found for '${q}.`);
+        onSearchComplete({});
+        onLeachComplete({});
+        return Promise.reject();
       }else{
+        addLog(`Getting magnet for '${res['Title']} (${res['Year']})'...`);
         onSearchComplete(res);
-        titleInfo = res;
         return searchMagnet(res['Title']);
       }
     })/*
@@ -88,14 +101,9 @@ const LandingPage = () => {
     .then(res => {
       addLog(`${titleInfo['Title']} added to library.`);
       addLog(`Stream at https://plex.hyperionprojects.dev`);
+      onLeachComplete({});
     })
     
-  }
-
-  // Callback to update state.query from child Input. 
-  // Passed to Input component if onChange callbacks are required.
-  const onQueryChange = (q) => {
-    setQuery(q);
   }
 
   return (
@@ -103,15 +111,12 @@ const LandingPage = () => {
       <Banner/>
       <form onSubmit={onSubmit} autoComplete="off">
         <Input name="query" type="text" placeholder="Movie/TV" margin="0.5em 1em"/>
-        <Button>Leech</Button>
+        <Button disabled={isLeechInProgress}>Leech</Button>
       </form>
       <div style={{display: 'flex', flexDirection:'row'}}>
-        <Poster imgSrc={leechResult['Poster']}></Poster>
-        <div style={{display: 'flex', flexDirection:'column'}}>
-          {
-            logs.map(log => <Text key={log}>{log}</Text>)
-          }
-        </div>
+        {(isSearchInProgress || searchResult['Poster']) 
+          && <Poster imgSrc={searchResult['Poster']}></Poster>}
+        <LogScroll logs ={logs}/>
       </div>
       
     </div>
