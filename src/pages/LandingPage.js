@@ -11,6 +11,7 @@ const LandingPage = () => {
   
   // State: Realtime Logs of leeching 
   const [logs, setLogs] = useState(['']);
+  const [query, setQuery] = useState('');
 
   const [isSearchInProgress, setIsSearchInProgress] = useState(false);
   const [isLeechInProgress, setIsLeechInProgress] = useState(false);
@@ -18,6 +19,10 @@ const LandingPage = () => {
 
   let titleInfo;
   let logScroll = '';
+
+  const onQueryChange = (q) =>{
+    setQuery(q);
+  }
 
   // Callback when leech query is submitted
   const onSubmit = (event) =>{
@@ -38,11 +43,27 @@ const LandingPage = () => {
     // Update local titleInfo
     titleInfo = data;
   }
+  const onSearchFail = () => {
+    setLogs([`No results found.`]);
+    setSearchResult({});
+    setTitleInfo({});
+    onLeachComplete({});
+  }
 
-  const onSearchComplete = (data)=>{
-    setIsSearchInProgress(false);
+  const onSearchSuccess = (data) =>{
+    addLog(`Getting magnet for '${data['Title']} (${data['Year']})'...`);
     setSearchResult(data);
     setTitleInfo(data);
+  }
+  const onSearchComplete = (res)=>{
+    setIsSearchInProgress(false);
+    if(!res['Title']) {
+      onSearchFail();
+      return Promise.reject();
+    }else{
+      onSearchSuccess(res);
+      return searchMagnet(res['Title']);
+    }
   }
 
   const onSearchStart = (q) =>{
@@ -66,16 +87,7 @@ const LandingPage = () => {
     onLeachStart(q);
     searchTitle(q)
     .then(res =>{
-      if(!res['Title']) {
-        addLog(`No results found for '${q}.`);
-        onSearchComplete({});
-        onLeachComplete({});
-        return Promise.reject();
-      }else{
-        addLog(`Getting magnet for '${res['Title']} (${res['Year']})'...`);
-        onSearchComplete(res);
-        return searchMagnet(res['Title']);
-      }
+      return onSearchComplete(res);
     })/*
     .then(res => {
       addLog(`Magnet found. Queueing torrent, this may take a while...`);
@@ -103,6 +115,9 @@ const LandingPage = () => {
       addLog(`Stream at https://plex.hyperionprojects.dev`);
       onLeachComplete({});
     })
+    .catch(res => {
+      console.log('Rejected Promise caught.');
+    })
     
   }
 
@@ -110,8 +125,8 @@ const LandingPage = () => {
     <div>
       <Banner/>
       <form onSubmit={onSubmit} autoComplete="off">
-        <Input name="query" type="text" placeholder="Movie/TV" margin="0.5em 1em"/>
-        <Button disabled={isLeechInProgress}>Leech</Button>
+        <Input name="query" type="text" handleChange = {onQueryChange} placeholder="Movie/TV" margin="0.5em 1em"/>
+        <Button disabled={query.length==0 || isLeechInProgress}>Leech</Button>
       </form>
       <div style={{display: 'flex', flexDirection:'row'}}>
         {(isSearchInProgress || searchResult['Poster']) 

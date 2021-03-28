@@ -1,7 +1,11 @@
 
 export const searchTitle = (query) => {
-    return fetch(`https://www.omdbapi.com/?apikey=f17fea1c&t=${query}`)
+    return fetch(`https://leecher.hyperionprojects.dev/plexbot/api/searchTitle?q=${query}`,{
+        method: 'GET', 
+        // mode: 'no-cors', // no-cors, *cors, same-origin
+    })
     .then(data => data.json())
+    .then(data => data['data'])
 }
 
 export const searchMagnet = (query) => {
@@ -11,14 +15,7 @@ export const searchMagnet = (query) => {
 
     return fetch(`https://leecher.hyperionprojects.dev/plexbot/api/searchMagnet`,{
         method: 'POST', 
-        mode: 'no-cors', // no-cors, *cors, same-origin
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        referrerPolicy: 'origin',
-        body: formData
+        body: formData,
       })
     .then(data => data.json())
 }
@@ -30,13 +27,6 @@ export const queueTorrent = (magnetUri) => {
 
     return fetch(`https://leecher.hyperionprojects.dev/plexbot/api/queueTorrent`,{
         method: 'POST', 
-        mode: 'no-cors', // no-cors, *cors, same-origin
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        referrerPolicy: 'origin',
         body: formData
       })
     .then(data => data.json())
@@ -55,13 +45,6 @@ export const downloadFile = (dlLink) => {
 
     return fetch(`https://leecher.hyperionprojects.dev/plexbot/api/downloadFile`,{
         method: 'POST', 
-        mode: 'no-cors', // no-cors, *cors, same-origin
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        referrerPolicy: 'origin',
         body: formData
       })
     .then(data => data.json())
@@ -74,13 +57,6 @@ export const unzipToLibrary = (archive) => {
 
     return fetch(`https://leecher.hyperionprojects.dev/plexbot/api/unzipToLibrary`,{
         method: 'POST', 
-        mode: 'no-cors', // no-cors, *cors, same-origin
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        referrerPolicy: 'origin',
         body: formData
       })
     .then(data => data.json())
@@ -93,13 +69,6 @@ export const plexScanLibrary = (id) => {
 
     return fetch(`https://leecher.hyperionprojects.dev/plexbot/api/plexScanLibrary`,{
         method: 'POST', 
-        mode: 'no-cors', // no-cors, *cors, same-origin
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        referrerPolicy: 'origin',
         body: formData
       })
     .then(data => data.json())
