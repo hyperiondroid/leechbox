@@ -5,14 +5,15 @@ import LibraryPlaceholder from './LibraryPlaceholder';
 // Default width is set to 214 to math that of Input component
 const PosterImpl = ({ className, imgSrc, width = 214, height = 300, ...misc}) =>{
   return (
-      imgSrc ? <img style={{objectFit: 'cover', width: '214px'}} className= {className} src={imgSrc} {...misc}/> 
+      imgSrc ? <div><img style={{objectFit: 'fill'}} className= {className} src={imgSrc} {...misc}/></div>
               : <LibraryPlaceholder width = {width} height={height}/>  
     );
 }
 
 const Poster = styled(PosterImpl)`
   border-radius: 8px;
-  width: ${props=> props.width || 214/16}em;
+  width: ${props=> props.width || 214}px;
+  height: 300px;
   margin: 0.5em 1em;
   user-select: none;
 `

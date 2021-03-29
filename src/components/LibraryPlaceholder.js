@@ -11,6 +11,7 @@ const LibraryPlaceholderImpl = ({className, width = 214, height = 300, ...props}
     const borderRadius = 8
 
     return (
+      <div>
       <ContentLoader
         className =  {className}
         speed={speed}
@@ -29,11 +30,13 @@ const LibraryPlaceholderImpl = ({className, width = 214, height = 300, ...props}
               height={coverHeight}
             />
       </ContentLoader>
+      </div>
     )
   }
 
 const LibraryPlaceholder = styled(LibraryPlaceholderImpl)`
   margin: 0.5em 1em;
+  width: ${props=> props.width || 214}px;
 `
 
 export default LibraryPlaceholder

@@ -15,6 +15,9 @@ const LogScrollImpl = ({className, logs, ...misc}) => {
 const LogScroll = styled(LogScrollImpl)`
     display: flex;
     flex-direction: column;
+    width: 30em;
+    padding: 0em 1em 0em 0em;
+    font-size: 1em;
 `
 
 export default LogScroll;

@@ -4,13 +4,14 @@ import Input from '../components/Input';
 import Banner from '../components/Banner';
 import Poster from '../components/Poster';
 import LogScroll from '../components/LogScroll';
+import Row from '../components/Row';
 import {searchTitle, searchMagnet, queueTorrent, getArchiveUrl,
    downloadFile, unzipToLibrary, plexScanLibrary } from '../services/Leecher';
 
 const LandingPage = () => {
   
   // State: Realtime Logs of leeching 
-  const [logs, setLogs] = useState(['']);
+  const [logs, setLogs] = useState(['Awaiting input...']);
   const [query, setQuery] = useState('');
 
   const [isSearchInProgress, setIsSearchInProgress] = useState(false);
@@ -125,14 +126,16 @@ const LandingPage = () => {
     <div>
       <Banner/>
       <form onSubmit={onSubmit} autoComplete="off">
-        <Input name="query" type="text" handleChange = {onQueryChange} placeholder="Movie/TV" margin="0.5em 1em"/>
-        <Button disabled={query.length==0 || isLeechInProgress}>Leech</Button>
+        <Row>
+          <Input name="query" type="text" handleChange = {onQueryChange} placeholder="Movie/TV" margin="0.5em 1em"/>
+          <Button disabled={query.length==0 || isLeechInProgress}>Leech</Button>
+        </Row>
       </form>
-      <div style={{display: 'flex', flexDirection:'row'}}>
+      <Row wrap='wrap'>
         {(isSearchInProgress || searchResult['Poster']) 
-          && <Poster imgSrc={searchResult['Poster']}></Poster>}
+          && <Poster imgSrc={searchResult['Poster']}/>}
         <LogScroll logs ={logs}/>
-      </div>
+      </Row>
       
     </div>
     
