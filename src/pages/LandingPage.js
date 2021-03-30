@@ -11,7 +11,7 @@ import {searchTitle, searchMagnet, queueTorrent, getArchiveUrl,
 const LandingPage = () => {
   
   // State: Realtime Logs of leeching 
-  const [logs, setLogs] = useState(['Awaiting input...']);
+  const [logs, setLogs] = useState([]);
   const [query, setQuery] = useState('');
 
   const [isSearchInProgress, setIsSearchInProgress] = useState(false);
@@ -19,7 +19,7 @@ const LandingPage = () => {
   const [searchResult, setSearchResult] = useState({});
 
   let titleInfo;
-  let logScroll = '';
+  let logScroll = [];
 
   const onQueryChange = (q) =>{
     setQuery(q);
@@ -33,11 +33,13 @@ const LandingPage = () => {
     startLeach(q);
   }
 
-  const addLog = (log) =>{
-    console.log(`Adding log: ${log}`);
-    logScroll +='\n'+ log;
+  const addLog = (log, type = 'text', opts={}) =>{
+    console.log(`Adding log: ${log}, ${type}`);
+    //logScroll +='\n'+ log;
     // TODO: Add list on logs. Debug state update bug
-    setLogs([logScroll]);
+    //setLogs([logScroll]);
+    logScroll.push({'type': type, 'log':log , ...opts});
+    setLogs(logScroll);
   }
 
   const setTitleInfo = (data) => {
@@ -45,7 +47,7 @@ const LandingPage = () => {
     titleInfo = data;
   }
   const onSearchFail = () => {
-    setLogs([`No results found.`]);
+    setLogs([{'log':`No results found.`,'type':'error'}]);
     setSearchResult({});
     setTitleInfo({});
     onLeachComplete({});
@@ -89,7 +91,7 @@ const LandingPage = () => {
     searchTitle(q)
     .then(res =>{
       return onSearchComplete(res);
-    })/*
+    })
     .then(res => {
       addLog(`Magnet found. Queueing torrent, this may take a while...`);
       return queueTorrent(res['magnet_uri']);
@@ -105,15 +107,15 @@ const LandingPage = () => {
     .then(res => {
       addLog(`Unpacking...`);
       return unzipToLibrary(res['file']);
-    })*/
+    })
     .then(res => {
       const id = (titleInfo['Type'] == 'movie') ? 1 : 2;
       addLog(`Refreshing media library /${id}...`);
       return plexScanLibrary(id);
     })
     .then(res => {
-      addLog(`${titleInfo['Title']} added to library.`);
-      addLog(`Stream at https://plex.hyperionprojects.dev`);
+      addLog(`'${titleInfo['Title']} (${titleInfo['Year']})' added to library.`, 'success');
+      addLog(`Stream at plex.hyperionprojects.dev`,'link',{'link': 'https://plex.hyperionprojects.dev'});
       onLeachComplete({});
     })
     .catch(res => {
