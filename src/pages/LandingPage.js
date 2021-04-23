@@ -119,7 +119,7 @@ const LandingPage = () => {
       onLeachComplete({});
     })
     .catch(res => {
-      console.log('Rejected Promise caught.');
+      addLog('Error encountered.');
     })
     
   }
